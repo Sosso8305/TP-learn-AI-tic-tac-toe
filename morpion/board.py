@@ -1,4 +1,4 @@
-from logger import logger as log
+from .logger import logger as log
 from random import randint
 
 class Board:

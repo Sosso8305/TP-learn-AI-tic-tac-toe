@@ -10,7 +10,7 @@ class GameScreen(Window):
     def __init__(self, game):
         super().__init__(game)
 
-        self.board = Board(self.game.params[player1], self.game.params[player2])
+        #self.board = Board(self.game.params[player1], self.game.params[player2])
         
         
         

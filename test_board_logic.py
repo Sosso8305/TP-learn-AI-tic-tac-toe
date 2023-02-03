@@ -1,4 +1,4 @@
-from board import Board
+from morpion import Board
 
 board = Board("X","O")
 

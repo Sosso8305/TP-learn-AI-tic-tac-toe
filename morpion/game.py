@@ -31,6 +31,8 @@ class Game:
             "AI_method": "easy" # easy, mimax, minimax_alpha_beta, complex
         }
 
+        log.info("Game initialized")
+
 
         
     def setScreen(self, screen_name):
