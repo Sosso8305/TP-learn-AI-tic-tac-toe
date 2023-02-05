@@ -8,7 +8,7 @@ class Board:
         self.player2 = player2
         self.board = [[0,0,0],[0,0,0],[0,0,0]]
         #self.board = [['X','X','O'],['O','O','X'],['X',0,0]]
-        self.turn = 1
+        self.turn = 0
         self.winner = 0 # 0 = no winner, 1 = player1, 2 = player2
         self.finished = False
         self.turnPlayer = randint(1,2)
@@ -54,7 +54,7 @@ class Board:
     def setMark(self, mark, x, y):
         if self.turnPlayer == 1:
             if mark != self.player1:
-                log.error("Player 1 tried to play with the wrong mark")
+                log.error(f"Player 1 tried to play with the wrong mark {mark}")
                 return False
         elif self.turnPlayer == 2:
             if mark != self.player2:
@@ -86,6 +86,6 @@ class Board:
 
     def getMark(self,x,y):
         if x < 0 or x > 2 or y < 0 or y > 2:
-            log.error("Player tried to get a mark out of the board")
+            log.error("tried to get a mark out of the board")
         return self.board[x][y]
     

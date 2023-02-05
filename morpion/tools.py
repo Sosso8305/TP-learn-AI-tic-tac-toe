@@ -9,7 +9,7 @@ from .constants import DEFAULT_BUTTON_IMAGE, DEFAULT_HOVERED_BUTTON_IMAGE, DEFAU
 #                                   Button class                                           #
 ############################################################################################
 class Button(pygame.sprite.Sprite):
-    def __init__(self, game, pos, text, size, imgPath = DEFAULT_BUTTON_IMAGE  ,textScale=0.5, textLineSpacing=1, hoverMode='scale', action=None):
+    def __init__(self, game, pos, text, size, imgPath = DEFAULT_BUTTON_IMAGE  ,textScale=0.5, textLineSpacing=1, hoverMode='scale', action=None, params=None):
         super().__init__()
         self.game = game
 
@@ -19,6 +19,7 @@ class Button(pygame.sprite.Sprite):
 
         self.size= size
         self.path= imgPath
+        self.pos = pos
 
         self.hoverMode = hoverMode
 
@@ -26,6 +27,10 @@ class Button(pygame.sprite.Sprite):
         self.hovered = False
 
         self.action = action
+        self.params = params
+
+        self.textScale = textScale
+        self.textLineSpacing = textLineSpacing
 
         self.tmpImage = pygame.transform.scale(img, size)
         game.textDisplayer.write(text,(6,0), scale=textScale, lineSpacing=textLineSpacing, rectSize=(size[0]-10, size[1]), center=True, screen=self.tmpImage)
@@ -66,8 +71,11 @@ class Button(pygame.sprite.Sprite):
         for event in events:
             if event.type == pygame.MOUSEBUTTONUP and self.hovered:
                 self.isPressed = True
-                if self.action:
+                if self.action and not self.params:
                     self.action()
+                elif self.action and self.params:
+                    self.action(self.params)
+    				
         
         self.isPressed = False
 
@@ -77,6 +85,24 @@ class Button(pygame.sprite.Sprite):
 
     def setAction(self, action):
         self.action = action
+
+    def setText(self, text):
+        self.game.textDisplayer.write(text,(6,0), scale=self.textScale, lineSpacing=self.textLineSpacing, rectSize=(self.size[0]-10, self.size[1]), center=True, screen=self.tmpImage)
+
+        if self.hoverMode=='overlay':
+            self.hoveredImage = self.tmpImage.copy()
+            self.hoveredImage.blit(pygame.transform.scale(pygame.image.load(DEFAULT_HOVERED_BUTTON_IMAGE), size), (0,0))
+        else:
+            if self.hoverMode!='scale':
+                log.warning(f"Unknown hover mode {self.hoverMode} for button {text}")
+            self.hoveredImage = pygame.transform.scale(self.tmpImage, (self.size[0]+10, self.size[1]+10))
+
+        self.tmpImage.set_colorkey((0,0,0))
+        self.hoveredImage.set_colorkey((0,0,0))
+
+        self.image = self.tmpImage
+        self.rect = self.image.get_rect()
+        self.rect.topleft =self.pos
 
 
 

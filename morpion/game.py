@@ -16,10 +16,6 @@ class Game:
 
         self.current_screen = "main_screen"
 
-        self.screens = {
-            "main_screen": MenuScreen(self),
-            "game_screen": GameScreen(self)
-        }
 
         self.params = {
             "player1": "X",
@@ -28,7 +24,13 @@ class Game:
             "player2_name": "Player 2",
             "typePlayer1": "human",
             "typePlayer2": "human",
-            "AI_method": "easy" # easy, mimax, minimax_alpha_beta, complex
+            "AI_method": "easy", # easy, mimax, minimax_alpha_beta, complex
+            "winner": 0,
+        }
+        
+        self.screens = {
+            "main_screen": MenuScreen(self),
+            "game_screen": GameScreen(self)
         }
 
         log.info("Game initialized")
@@ -44,7 +46,7 @@ class Game:
     
     def run(self):
         self.running = True
-        log.debug("funct Game.run() called")
+        flag_stop = False
         
 
         while self.running:
@@ -58,4 +60,9 @@ class Game:
                 if event.type == pygame.QUIT:
                     log.info("Game closed")
                     self.running = False
+                    flag_stop = True
                     pygame.quit()
+
+        if not flag_stop:
+            log.info("Game closed")
+            pygame.quit()

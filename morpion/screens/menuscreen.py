@@ -41,6 +41,6 @@ class MenuScreen(Window):
         self.game.setScreen('game_screen')
 
     def quit(self):
-        log.info("Button Quit")
+        log.debug("Button Quit")
         self.game.running = False        
 
